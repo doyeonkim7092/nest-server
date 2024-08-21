@@ -9,11 +9,12 @@ import { swaggerConstants } from './shared/constants/swagger.constants';
 import basicAuth from 'express-basic-auth';
 import { join, resolve } from 'path';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
+import helmet from 'helmet';
 
 async function bootstrap() {
   const app = await NestFactory.create<NestExpressApplication>(AppModule, {});
   const port = parseInt(process.env.PORT, 10);
-  const env = process.env.ENV;
+  const env = process.env.NODE_ENV;
   const timezone = process.env.TZ;
 
   /**
@@ -129,6 +130,46 @@ async function bootstrap() {
       },
     };
 
-  await app.listen(3000);
+  const cspOptions = {
+    directives: {
+      ...helmet.contentSecurityPolicy.getDefaultDirectives(),
+      'script-src': [
+        "'self'",
+        "'unsafe-inline'",
+        "'unsafe-eval'",
+        // "'*.server-domain.com'", TODO:서버 도메인 설정
+      ],
+      'form-action': [
+        "'self'",
+        '*.checkplus.co.kr',
+        "'unsafe-inline'",
+        "'unsafe-eval'",
+      ],
+      'base-uri': ['/', 'http:'],
+    },
+  };
+
+  /**
+   * Helmet
+   */
+  app.use(
+    helmet({
+      //cspOptions
+      contentSecurityPolicy: cspOptions,
+      crossOriginOpenerPolicy: false,
+      crossOriginResourcePolicy: false,
+    }),
+  ); // Always apply helmet after Swagger! https://dev.to/starlingroot/helmetjs-and-swaggerui-avoiding-headaches-in-your-nodejs-app-29l3
+
+  await app.listen(port, '0.0.0.0', function () {
+    if (typeof process.send === 'function') {
+      process.send('ready');
+    }
+  });
+
+  process.on('SIGINT', function () {
+    // SIGINT: Interrupt from keyboard(such as Ctrl C)
+    process.exit();
+  });
 }
 bootstrap();
