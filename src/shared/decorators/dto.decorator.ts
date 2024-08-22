@@ -104,16 +104,12 @@ const IsBoolean = function () {
       propertyName: propertyName,
       validator: {
         validate(value: any) {
-          if (
+          return (
             value === 'true' ||
             value === true ||
             value === 'false' ||
             value === false
-          ) {
-            return true;
-          } else {
-            return false;
-          }
+          );
         },
         //IsBoolean 함수 내 해당 값들이 boolean 으로 인식되지 않는 경우 기본 오류 처리
         defaultMessage(args: ValidationArguments) {

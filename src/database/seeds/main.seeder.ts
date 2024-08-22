@@ -6,6 +6,7 @@ async function main() {
     await dataSource.initialize();
     console.log('Data Source has been initialized!');
 
+    //Here is seeding add 더 좋은 방법 없을까
     await seederBuiltinBoard(dataSource);
     console.log('Seeding completed successfully!');
   } catch (error) {

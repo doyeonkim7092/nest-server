@@ -16,16 +16,30 @@ export const transformStringToDate = function (stringDate: string): Date {
 /**
  * DTO 정의 시 @Transform decorator에서 사용하는 함수(@IsDate decorator와 함께 사용)
  */
-// export const transformStringToDateStart = function (
-//   stringDate: string,
-// ): Date {};
+export const transformStringToDateStart = function (stringDate: string): Date {
+  if (stringDate) {
+    const date = new Date(stringDate);
+    const dateStart = dayjs(date).startOf('day').toDate();
+
+    return dateStart;
+  }
+
+  return null;
+};
 
 /**
  * DTO 정의 시 @Transform decorator에서 사용하는 함수(@IsDate decorator와 함께 사용)
  */
-// export const transformStringToDateEnd = function (
-//   stringDate: string,
-// ): Date {};
+export const transformStringToDateEnd = function (stringDate: string): Date {
+  if (stringDate) {
+    const date = new Date(stringDate);
+    const dateEnd = dayjs(date).endOf('day').toDate();
+
+    return dateEnd;
+  }
+
+  return null;
+};
 
 /**
  * YYYY-MM-DD HH:mm:ss와 같은 형태의 stringifiedDate를 반환

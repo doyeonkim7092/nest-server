@@ -7,7 +7,9 @@ export const swaggerConstants = {
     SWAGGER_DESCRIPTION: 'Anonymous Earth API Document',
     SWAGGER_VERSION: '1.0',
   },
-  tags: {},
+  tags: {
+    BUILTIN_BOARD: '[템플릿] CRUD-게시판',
+  },
   auth: {
     BEARER_TOKEN: 'bearer-token',
   },
