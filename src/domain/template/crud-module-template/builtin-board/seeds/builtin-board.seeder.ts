@@ -13,9 +13,10 @@ export const seederBuiltinBoard = async (dataSource: DataSource) => {
       body: '첫 번째 게시글입니다.',
       isActivated: true,
     },
-    // is you wanna more ? go on !
+    // 원한다면 더 집어 넣으세요
   ];
 
+  // 로직에 대한 개선은 언제나 가능
   for (const item of seedData) {
     const existingBoard = await builtInRepository.findOne({
       where: { writer: item.writer, body: item.body },
