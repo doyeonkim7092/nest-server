@@ -15,11 +15,13 @@ import { BuiltinBoardModule } from './domain/template/crud-module-template/built
 import { JwtMiddleware } from 'src/domain/jwt/middlewares/jwt.middleware';
 import { join } from 'path';
 import { JwtModule } from './domain/jwt/jwt.module';
+import { dataSourceOptions } from './config/typeorm.config';
 
 @Module({
   imports: [
     ConfigModule.forRoot({
       envFilePath,
+      isGlobal: true,
       validationSchema: Joi.object({
         NODE_ENV: Joi.string()
           .valid(...commonConstants.props.NODE_ENV_ARRAY)
@@ -45,20 +47,21 @@ import { JwtModule } from './domain/jwt/jwt.module';
          */
       }),
     }),
-    TypeOrmModule.forRoot({
-      type: 'postgres',
-      host: process.env.DB_HOST,
-      port: parseInt(process.env.DB_PORT, 10),
-      database: process.env.DB_NAME,
-      username: process.env.DB_USERNAME,
-      password: process.env.DB_PASSWORD,
-      schema: process.env.DB_SCHEMA,
-      logging: JSON.parse(process.env.DB_LOGGING),
-      synchronize: false,
-      entities: [join(__dirname, '**', '*.entity.{ts,js}')],
-      migrations: ['src/database/migrations/*.ts'],
-      migrationsTableName: 'migrations',
-    }),
+    TypeOrmModule.forRoot(dataSourceOptions),
+    // TypeOrmModule.forRoot({
+    //   type: 'postgres',
+    //   host: process.env.DB_HOST,
+    //   port: parseInt(process.env.DB_PORT, 10),
+    //   database: process.env.DB_NAME,
+    //   username: process.env.DB_USERNAME,
+    //   password: process.env.DB_PASSWORD,
+    //   schema: process.env.DB_SCHEMA,
+    //   logging: JSON.parse(process.env.DB_LOGGING),
+    //   synchronize: false,
+    //   entities: [join(__dirname, '**', '*.entity.{ts,js}')],
+    //   migrations: ['src/database/migrations/*.ts'],
+    //   migrationsTableName: 'migrations',
+    // }),
     BuiltinBoardModule,
     JwtModule.forRoot({
       jwtSecret: process.env.JWT_SECRET,

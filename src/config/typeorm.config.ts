@@ -1,33 +1,27 @@
-// import { DataSource } from 'typeorm';
-// import { ConfigService } from '@nestjs/config';
-//
-// // In case you are using dotenv for environment variables
-// const configService = new ConfigService();
-//
-// console.log(configService, 'dd');
-//
-// console.log({
-//   type: 'postgres',
-//   host: configService.get<string>('DB_HOST'),
-//   port: configService.get<number>('DB_PORT'),
-//   database: configService.get<string>('DB_NAME'),
-//   // schema: configService.get<number>('DB_SCHEMA'),
-//   username: configService.get<string>('DB_USERNAME'),
-//   password: configService.get<string>('DB_PASSWORD'),
-//   entities: [__dirname + '/../**/*.entity{.ts,.js}'],
-//   migrations: [__dirname + '/../migrations/*{.ts,.js}'],
-//   synchronize: false,
-// });
-//
-// export const dataSource = new DataSource({
-//   type: 'postgres',
-//   host: configService.get<string>('DB_HOST'),
-//   port: configService.get<number>('DB_PORT'),
-//   database: configService.get<string>('DB_NAME'),
-//   // schema: configService.get<number>('DB_SCHEMA'),
-//   username: configService.get<string>('DB_USERNAME'),
-//   password: configService.get<string>('DB_PASSWORD'),
-//   entities: [__dirname + '/../**/*.entity{.ts,.js}'],
-//   migrations: [__dirname + '/../migrations/*{.ts,.js}'],
-//   synchronize: false,
-// });
+import { DataSource, DataSourceOptions } from 'typeorm';
+import { ConfigService } from '@nestjs/config';
+import { config } from 'dotenv';
+import envFilePath from '../../envs/env';
+
+// Load the environment variables
+config({ path: envFilePath });
+
+const configService = new ConfigService();
+
+export const dataSourceOptions: DataSourceOptions = {
+  type: 'postgres',
+  host: process.env.DB_HOST,
+  port: parseInt(process.env.DB_PORT, 10),
+  database: process.env.DB_NAME,
+  username: process.env.DB_USERNAME,
+  password: process.env.DB_PASSWORD,
+  schema: process.env.DB_SCHEMA,
+  logging: JSON.parse(process.env.DB_LOGGING),
+  synchronize: false,
+  entities: [__dirname + '/../../**/*.entity.{js,ts}'],
+  migrations: ['src/database/migrations/*.ts'],
+  migrationsTableName: 'migrations',
+};
+
+const dataSource = new DataSource(dataSourceOptions);
+export default dataSource;
