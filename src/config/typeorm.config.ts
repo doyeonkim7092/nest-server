@@ -22,6 +22,7 @@ export const dataSourceOptions: DataSourceOptions = {
   // migrations: ['src/database/migrations/*.ts'],
   migrations: ['/../database/migrations/*.ts'],
   migrationsTableName: 'migrations',
+  // seeds: [__dirname + '/../../**/*.seeder.{js,ts}'],
 };
 
 const dataSource = new DataSource(dataSourceOptions);

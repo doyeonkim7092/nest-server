@@ -16,4 +16,6 @@
 
 ### 2.2 npm run seeds 시드 내용 적용 (적용이 제대로 되었다면 커맨드 실행 후, 스크립트 확인 가능)
 
-## 3. 한번에 적용하고 싶다면, npm run setup-db
+### 2.3. 한번에 적용하고 싶다면, npm run setup-db
+
+### 3-1. npm run start:${env}
