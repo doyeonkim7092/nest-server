@@ -12,7 +12,8 @@ export enum SimpleConnectionType {
 }
 
 export enum Services {
-  EARTH_APP = 'EARTH_APP',
+  CUSTOMER_APP = 'CUSTOMER_APP',
+  CUSTOMER_WEB = 'CUSTOMER_WEB',
   BOS_WEB = 'BOS_WEB',
 }
 

@@ -16,6 +16,7 @@ import { JwtMiddleware } from 'src/domain/jwt/middlewares/jwt.middleware';
 import { join } from 'path';
 import { JwtModule } from './domain/jwt/jwt.module';
 import { dataSourceOptions } from './config/typeorm.config';
+import { AccountModule } from './domain/account/account.module';
 
 @Module({
   imports: [
@@ -48,21 +49,8 @@ import { dataSourceOptions } from './config/typeorm.config';
       }),
     }),
     TypeOrmModule.forRoot(dataSourceOptions),
-    // TypeOrmModule.forRoot({
-    //   type: 'postgres',
-    //   host: process.env.DB_HOST,
-    //   port: parseInt(process.env.DB_PORT, 10),
-    //   database: process.env.DB_NAME,
-    //   username: process.env.DB_USERNAME,
-    //   password: process.env.DB_PASSWORD,
-    //   schema: process.env.DB_SCHEMA,
-    //   logging: JSON.parse(process.env.DB_LOGGING),
-    //   synchronize: false,
-    //   entities: [join(__dirname, '**', '*.entity.{ts,js}')],
-    //   migrations: ['src/database/migrations/*.ts'],
-    //   migrationsTableName: 'migrations',
-    // }),
     BuiltinBoardModule,
+    AccountModule,
     JwtModule.forRoot({
       jwtSecret: process.env.JWT_SECRET,
     }),

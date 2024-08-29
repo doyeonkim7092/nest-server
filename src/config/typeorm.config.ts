@@ -19,8 +19,8 @@ export const dataSourceOptions: DataSourceOptions = {
   logging: JSON.parse(process.env.DB_LOGGING),
   synchronize: false,
   entities: [__dirname + '/../../**/*.entity.{js,ts}'],
-  // migrations: ['src/database/migrations/*.ts'],
-  migrations: ['/../database/migrations/*.ts'],
+  migrations: ['src/database/migrations/*.ts'],
+  // migrations: ['/../database/migrations/*.ts'],
   migrationsTableName: 'migrations',
   // seeds: [__dirname + '/../../**/*.seeder.{js,ts}'],
 };
